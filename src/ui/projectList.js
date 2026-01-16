@@ -377,6 +377,11 @@ export const renderProjectList = () => {
                                                     if (!stillExists) {
                                                         // Chat was deleted, remove from project
                                                         removeChatFromProject(chat.id, renderProjectList);
+                                                        // Navigate to Gemini home to avoid "conversation deleted" error
+                                                        if (window.location.pathname !== '/app') {
+                                                            window.history.pushState({}, '', '/app');
+                                                            window.dispatchEvent(new PopStateEvent('popstate'));
+                                                        }
                                                     }
                                                 };
                                                 // Check after native delete dialog would complete
