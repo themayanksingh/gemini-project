@@ -287,12 +287,21 @@ export const getCurrentChatId = () => {
 };
 
 export const syncCurrentChatTitle = () => {
+    // Invalid titles that should never be synced (UI elements, not chat titles)
+    const INVALID_TITLES = ['projects', 'chats', 'gemini', 'recent', 'starred', 'untitled', 'untitled chat'];
+
     const currentChatId = getCurrentChatId();
     const normalizedId = normalizeChatId(currentChatId);
     if (!normalizedId) return false;
 
     const title = getCurrentChatTitle();
     if (!title) return false;
+
+    // Don't sync if title matches an invalid UI element name
+    if (INVALID_TITLES.includes(title.toLowerCase())) {
+        console.log('[GCM DEBUG] Rejecting invalid title sync:', title);
+        return false;
+    }
 
     const chatMappings = getChatMappings();
     const existing = chatMappings[normalizedId];

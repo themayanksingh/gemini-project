@@ -4,7 +4,7 @@
  */
 
 // Version - update this when making changes
-const GCM_VERSION = "1.1.1";
+const GCM_VERSION = "1.1.2";
 console.log(`[GCM] Gemini Chat Manager v${GCM_VERSION} loaded`);
 
 import { loadData, saveChatMappings } from "./storage.js";
@@ -21,15 +21,25 @@ const getConversationsList = () =>
 
 // Initialize the extension
 const init = async () => {
+    // Invalid titles that indicate corrupted data (UI elements captured instead of chat titles)
+    const INVALID_TITLES = ['projects', 'chats', 'gemini', 'recent', 'starred', 'untitled', 'untitled chat'];
+
     // Load data from storage
     const data = await loadData();
+    console.log('[GCM DEBUG] Loaded data from storage:', JSON.stringify(data));
     setProjects(data.projects);
     const normalizedChatMappings = normalizeChatMappings(data.chatMappings);
     const validProjectIds = new Set(data.projects.map((project) => project.id));
     const prunedChatMappings = {};
     Object.entries(normalizedChatMappings).forEach(([chatId, chatData]) => {
-        if (chatData?.projectId && validProjectIds.has(chatData.projectId)) {
+        // Validate: must have valid projectId AND valid title (not a UI element name)
+        const hasValidProject = chatData?.projectId && validProjectIds.has(chatData.projectId);
+        const hasValidTitle = chatData?.title && !INVALID_TITLES.includes(chatData.title.toLowerCase());
+
+        if (hasValidProject && hasValidTitle) {
             prunedChatMappings[chatId] = chatData;
+        } else {
+            console.log('[GCM] Removing invalid chat mapping:', { chatId, chatData, hasValidProject, hasValidTitle });
         }
     });
     setChatMappings(prunedChatMappings);
