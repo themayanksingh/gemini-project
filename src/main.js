@@ -4,7 +4,7 @@
  */
 
 // Version - update this when making changes
-const GCM_VERSION = "1.1.7";
+const GCM_VERSION = "1.1.8";
 console.log(`[GCM] Gemini Chat Manager v${GCM_VERSION} loaded`);
 
 import { loadData, saveChatMappings } from "./storage.js";

@@ -320,7 +320,7 @@ export const renderProjectList = () => {
                     menuBtn.addEventListener("click", (e) => {
                         e.stopPropagation();
 
-                        // Helper to trigger native menu action
+                        // Helper to trigger native menu action - returns false if chat not found
                         const triggerNativeAction = (actionText) => {
                             const nativeChatContainer = findConversationContainerById(chat.id);
                             const nativeMenuBtn = nativeChatContainer?.querySelector('.conversation-actions-menu-button');
@@ -376,7 +376,9 @@ export const renderProjectList = () => {
                                     // Restore scroll again after action
                                     scrollContainers.forEach((c, i) => { c.scrollTop = scrollPositions[i]; });
                                 }, 100);
+                                return true;
                             }
+                            return false; // Chat not found in native list
                         };
 
                         // Show context menu with all options
@@ -401,7 +403,14 @@ export const renderProjectList = () => {
                             {
                                 label: "Delete",
                                 danger: true,
-                                action: () => triggerNativeAction("delete"),
+                                action: () => {
+                                    // Try to delete via native action, if chat not found just remove from project
+                                    const found = triggerNativeAction("delete");
+                                    if (!found) {
+                                        // Chat doesn't exist in native list anymore, just remove from project
+                                        removeChatFromProject(chat.id, renderProjectList);
+                                    }
+                                },
                             },
                         ]);
                     });
