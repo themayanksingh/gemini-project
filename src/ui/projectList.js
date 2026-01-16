@@ -341,11 +341,16 @@ export const renderProjectList = () => {
                                     .cdk-overlay-container { opacity: 0 !important; pointer-events: none !important; }
                                     .overflow-container, infinite-scroller { overflow: hidden !important; }
                                     .conversation-items-container[data-gcm-hidden="true"] { 
-                                        display: block !important; 
+                                        visibility: visible !important;
                                         opacity: 0 !important; 
                                         pointer-events: auto !important;
-                                        position: absolute !important;
+                                        position: fixed !important;
+                                        top: -9999px !important;
                                         left: -9999px !important;
+                                        width: 1px !important;
+                                        height: 1px !important;
+                                        clip: rect(0, 0, 0, 0) !important;
+                                        overflow: hidden !important;
                                     }
                                 `;
                                 document.head.appendChild(hideStyle);
