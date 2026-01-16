@@ -339,7 +339,6 @@ export const renderProjectList = () => {
                                 hideStyle.id = 'gcm-hide-native-menu';
                                 hideStyle.textContent = `
                                     .cdk-overlay-container { opacity: 0 !important; pointer-events: none !important; }
-                                    .overflow-container, infinite-scroller { overflow: hidden !important; }
                                     .conversation-items-container[data-gcm-hidden="true"] { 
                                         visibility: visible !important;
                                         opacity: 0 !important; 
