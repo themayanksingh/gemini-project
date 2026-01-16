@@ -66,7 +66,8 @@ export const getCurrentChatTitle = () => {
 
 const extractChatIdFromJslog = (jslog) => {
     if (!jslog) return null;
-    const match = jslog.match(/c_[a-zA-Z0-9_-]+/);
+    // Require at least 8 chars after c_ to avoid matching words like "click"
+    const match = jslog.match(/c_[a-zA-Z0-9_-]{8,}/);
     return match ? normalizeChatId(match[0]) : null;
 };
 
@@ -92,7 +93,8 @@ const extractChatIdFromUrl = (url) => {
 const isLikelyChatId = (value) => {
     if (!value || typeof value !== "string") return false;
     if (value.includes("c_")) {
-        return /c_[a-zA-Z0-9_-]+/.test(value);
+        // Require at least 8 chars after c_ to avoid matching words like "click"
+        return /c_[a-zA-Z0-9_-]{8,}/.test(value);
     }
     return /^[a-f0-9]{10,}$/i.test(value);
 };
