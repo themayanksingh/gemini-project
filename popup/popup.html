@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Gemini Chat Manager</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      width: 280px;
+      padding: 16px;
+      font-family: "Google Sans", "Segoe UI", Roboto, sans-serif;
+      background: #1e1e1e;
+      color: #e3e3e3;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .logo {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, #8ab4f8, #669df6);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .logo svg {
+      width: 18px;
+      height: 18px;
+      fill: #1e1e1e;
+    }
+    h1 {
+      font-size: 16px;
+      font-weight: 500;
+    }
+    .info {
+      background: #2d2d2d;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      padding: 4px 0;
+    }
+    .info-label {
+      color: #9aa0a6;
+    }
+    .info-value {
+      color: #8ab4f8;
+      font-weight: 500;
+    }
+    .divider {
+      height: 1px;
+      background: #3d3d3d;
+      margin: 12px 0;
+    }
+    .tip {
+      font-size: 12px;
+      color: #9aa0a6;
+      line-height: 1.5;
+    }
+    .tip strong {
+      color: #e3e3e3;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="logo">
+      <svg viewBox="0 0 24 24">
+        <path d="M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/>
+      </svg>
+    </div>
+    <h1>Gemini Chat Manager</h1>
+  </div>
+
+  <div class="info">
+    <div class="info-row">
+      <span class="info-label">Projects</span>
+      <span class="info-value" id="project-count">-</span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">Organized Chats</span>
+      <span class="info-value" id="chat-count">-</span>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <p class="tip">
+    <strong>Tip:</strong> Right-click any chat in Gemini to move it to a project. Create projects using the "+ Add" button in the sidebar.
+  </p>
+
+  <script src="popup.js"></script>
+</body>
+</html>

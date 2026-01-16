@@ -1,0 +1,370 @@
+/* ===== Hide Default Gemini Chat Header Only ===== */
+conversations-list[data-test-id="all-conversations"] .title-container {
+    display: none !important;
+}
+
+/* ===== Project Manager Container ===== */
+.gcm-container {
+    padding: 8px 0;
+    font-family: "Google Sans", Roboto, sans-serif;
+}
+
+.gcm-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 16px;
+    margin-bottom: 4px;
+}
+
+.gcm-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: #e3e3e3;
+    margin: 0;
+}
+
+/* ===== Add Project Button ===== */
+.gcm-add-btn {
+    background: none;
+    border: none;
+    color: #8ab4f8;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.gcm-add-btn:hover {
+    background: rgba(138, 180, 248, 0.1);
+}
+
+/* ===== Project List ===== */
+.gcm-projects {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.gcm-project {
+    margin: 0;
+    border-radius: 24px;
+    overflow: visible;
+}
+
+.gcm-project-header {
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    /* Reduced padding */
+    cursor: pointer;
+    border-radius: 24px;
+    transition: background 0.15s;
+    position: relative;
+    min-height: 40px;
+    box-sizing: border-box;
+    margin: 0 8px;
+}
+
+.gcm-project-header:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.gcm-project-icon {
+    width: 18px;
+    height: 18px;
+    margin-right: 10px;
+    fill: #e3e3e3;
+    flex-shrink: 0;
+}
+
+.gcm-project-name {
+    flex: 1;
+    font-size: 14px;
+    color: #e3e3e3;
+}
+
+.gcm-project-count {
+    display: none;
+}
+
+.gcm-project-menu-btn {
+    opacity: 0;
+    background: transparent;
+    border: none;
+    color: #e3e3e3;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.15s, background 0.15s;
+    margin-left: auto;
+}
+
+.gcm-project-menu-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+.gcm-project-header:hover .gcm-project-menu-btn {
+    opacity: 1;
+}
+
+.gcm-project-menu-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Expand button */
+.gcm-expand-btn {
+    background: transparent;
+    border: none;
+    color: #9aa0a6;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s, background 0.15s;
+    flex-shrink: 0;
+    margin-right: 4px;
+}
+
+.gcm-expand-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #e8eaed;
+}
+
+.gcm-project.expanded .gcm-expand-btn {
+    transform: rotate(90deg);
+}
+
+/* ===== Chat List Inside Project ===== */
+.gcm-chats {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.gcm-project.expanded .gcm-chats {
+    max-height: none;
+    overflow: visible;
+    margin-top: 8px;
+}
+
+.gcm-chat {
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    margin: 0 8px 4px 8px;
+    /* Added 4px bottom gap */
+    border-radius: 24px;
+    cursor: pointer;
+    transition: background 0.15s;
+    min-height: 40px;
+    box-sizing: border-box;
+}
+
+.gcm-chat:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.gcm-chat-title {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 400;
+    color: #e8eaed;
+    font-family: "Google Sans", Roboto, sans-serif;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 20px;
+    margin-left: 4px;
+    padding-left: 8px;
+}
+
+.gcm-chat.active {
+    background: rgba(138, 180, 248, 0.15);
+}
+
+.gcm-chat.active .gcm-chat-title {
+    color: #8ab4f8;
+}
+
+/* Chat menu button inside projects */
+.gcm-chat-menu-btn {
+    opacity: 0;
+    background: transparent;
+    border: none;
+    color: #e8eaed;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.15s, background 0.15s;
+    margin-left: auto;
+    flex-shrink: 0;
+}
+
+.gcm-chat:hover .gcm-chat-menu-btn {
+    opacity: 1;
+}
+
+.gcm-chat-menu-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* ===== Modal Styles ===== */
+.gcm-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+}
+
+.gcm-modal {
+    background: #2d2d2d;
+    border-radius: 12px;
+    padding: 24px;
+    min-width: 300px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    font-family: "Google Sans", Roboto, sans-serif;
+}
+
+.gcm-modal-title {
+    font-size: 18px;
+    font-weight: 500;
+    color: #e8eaed;
+    margin: 0 0 16px;
+    font-family: "Google Sans", Roboto, sans-serif;
+}
+
+.gcm-modal-input {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 14px;
+    border: 1px solid #5f6368;
+    border-radius: 8px;
+    background: #1e1e1e;
+    color: #e8eaed;
+    font-family: "Google Sans", Roboto, sans-serif;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.gcm-modal-input:focus {
+    border-color: #8ab4f8;
+}
+
+.gcm-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+.gcm-modal-btn {
+    padding: 8px 8px;
+    font-size: 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    border: none;
+    transition: background 0.2s;
+}
+
+.gcm-modal-btn.cancel {
+    background: transparent;
+    color: #8ab4f8;
+}
+
+.gcm-modal-btn.cancel:hover {
+    background: rgba(138, 180, 248, 0.1);
+}
+
+.gcm-modal-btn.primary {
+    background: #8ab4f8;
+    color: #1e1e1e;
+}
+
+.gcm-modal-btn.primary:hover {
+    background: #aecbfa;
+}
+
+/* ===== Context Menu ===== */
+.gcm-context-menu {
+    position: fixed;
+    background: #2d2d2d;
+    border-radius: 8px;
+    padding: 4px 0;
+    min-width: 150px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    z-index: 10001;
+}
+
+.gcm-context-item {
+    display: block;
+    width: 100%;
+    padding: 10px 16px;
+    font-size: 14px;
+    color: #e3e3e3;
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.gcm-context-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.gcm-context-item.danger {
+    color: #f28b82;
+}
+
+/* ===== Empty State ===== */
+.gcm-empty {
+    text-align: center;
+    padding: 24px 16px;
+    color: #9aa0a6;
+    font-size: 13px;
+}
+
+/* ===== Gem Picker ===== */
+.gcm-gem-list {
+    max-height: 300px;
+    overflow-y: auto;
+    margin: 16px 0;
+}
+
+.gcm-gem-item {
+    padding: 12px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #e8eaed;
+    font-family: "Google Sans", Roboto, sans-serif;
+    border-radius: 8px;
+    transition: background 0.15s;
+    margin: 4px 0;
+}
+
+.gcm-gem-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+}

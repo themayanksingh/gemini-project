@@ -1,0 +1,12 @@
+{
+    "name": "gemini-chat-manager",
+    "version": "1.0.0",
+    "description": "Organize Gemini chats into projects/folders",
+    "scripts": {
+        "dev": "node esbuild.config.js --watch",
+        "build": "node esbuild.config.js"
+    },
+    "devDependencies": {
+        "esbuild": "^0.20.0"
+    }
+}
