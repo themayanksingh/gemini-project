@@ -3,6 +3,10 @@
  * Organizes Gemini chats into projects/folders
  */
 
+// Version - update this when making changes
+const GCM_VERSION = "1.1.0";
+console.log(`[GCM] Gemini Chat Manager v${GCM_VERSION} loaded`);
+
 import { loadData, saveChatMappings } from "./storage.js";
 import { setProjects, setChatMappings } from "./state.js";
 import { hideAllMappedChats, cleanupDeletedChats, normalizeChatMappings, recoverHiddenUnmappedChats, syncCurrentChatTitle } from "./chats.js";
