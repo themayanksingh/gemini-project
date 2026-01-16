@@ -56,6 +56,7 @@ export const setProjectGem = (projectId, gemId, gemName, onComplete) => {
     const projects = getProjects();
     const project = projects.find((p) => p.id === projectId);
     if (project) {
+        project.gemId = gemId;
         project.gemName = gemName;
         setProjects(projects);
         saveProjects(projects);
