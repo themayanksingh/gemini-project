@@ -362,11 +362,28 @@ export const renderProjectList = () => {
                                 // Wait for menu to open, then click the action
                                 setTimeout(() => {
                                     const menuItems = document.querySelectorAll('.mat-mdc-menu-panel [role="menuitem"]');
+                                    let actionClicked = false;
                                     menuItems.forEach(item => {
                                         if (item.textContent?.trim().toLowerCase().includes(actionText.toLowerCase())) {
-                                            // Remove hide style before clicking (for dialogs like rename)
+                                            // Remove hide style before clicking (for dialog like rename)
                                             hideStyle.remove();
                                             item.click();
+                                            actionClicked = true;
+
+                                            // If this was a delete action, watch for the chat to be removed from DOM
+                                            if (actionText.toLowerCase() === 'delete') {
+                                                const checkIfDeleted = () => {
+                                                    const stillExists = findConversationContainerById(chat.id);
+                                                    if (!stillExists) {
+                                                        // Chat was deleted, remove from project
+                                                        removeChatFromProject(chat.id, renderProjectList);
+                                                    }
+                                                };
+                                                // Check after native delete dialog would complete
+                                                setTimeout(checkIfDeleted, 1000);
+                                                setTimeout(checkIfDeleted, 2000);
+                                                setTimeout(checkIfDeleted, 3000);
+                                            }
                                         }
                                     });
                                     // Ensure style is removed
