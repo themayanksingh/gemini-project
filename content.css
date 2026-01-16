@@ -199,22 +199,29 @@ conversations-list[data-test-id="all-conversations"] .title-container {
     color: #8ab4f8;
 }
 
-/* Chat menu button inside projects */
+/* Chat menu button inside projects - matches native Gemini menu button */
 .gcm-chat-menu-btn {
     opacity: 0;
     background: transparent;
     border: none;
-    color: #e8eaed;
+    color: #9aa0a6;
     cursor: pointer;
-    width: 24px;
-    height: 24px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: opacity 0.15s, background 0.15s;
+    transition: opacity 0.15s, background 0.15s, color 0.15s;
     margin-left: auto;
     flex-shrink: 0;
+    padding: 0;
+}
+
+.gcm-chat-menu-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
 }
 
 .gcm-chat:hover .gcm-chat-menu-btn {
@@ -222,7 +229,8 @@ conversations-list[data-test-id="all-conversations"] .title-container {
 }
 
 .gcm-chat-menu-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.08);
+    color: #e8eaed;
 }
 
 /* ===== Modal Styles ===== */
