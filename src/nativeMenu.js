@@ -136,10 +136,22 @@ const injectMoveToProjectOption = (menu) => {
                     e.stopPropagation();
                     if (lastClickedChat) {
                         moveChatToProject(lastClickedChat.id, lastClickedChat.title, project.id, renderProjectList);
-                        // Close all menus
+                        // Close all menus - remove submenu first
                         submenu.remove();
-                        document.querySelector('.cdk-overlay-container')?.click();
-                        document.body.click();
+                        // Close native Gemini menu by pressing Escape
+                        document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', keyCode: 27, bubbles: true }));
+                        // Also try clicking the overlay backdrop to close
+                        const backdrop = document.querySelector('.cdk-overlay-backdrop');
+                        if (backdrop) backdrop.click();
+                        // Force close any remaining menu panels
+                        document.querySelectorAll('.mat-mdc-menu-panel').forEach(panel => {
+                            panel.remove();
+                        });
+                        document.querySelectorAll('.cdk-overlay-pane').forEach(pane => {
+                            if (pane.querySelector('.mat-mdc-menu-panel')) {
+                                pane.remove();
+                            }
+                        });
                     }
                 });
 
