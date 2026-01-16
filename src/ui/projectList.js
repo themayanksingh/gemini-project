@@ -334,16 +334,33 @@ export const renderProjectList = () => {
                                 ].filter(Boolean);
                                 const scrollPositions = scrollContainers.map(c => c.scrollTop);
 
+<<<<<<< HEAD
                                 // Add temporary style to hide menu and lock scroll
+=======
+                                // Add temporary style to hide everything during the operation
+>>>>>>> 0af5372 (feat: Gemini Chat Manager extension with project folders)
                                 const hideStyle = document.createElement('style');
                                 hideStyle.id = 'gcm-hide-native-menu';
                                 hideStyle.textContent = `
                                     .cdk-overlay-container { opacity: 0 !important; pointer-events: none !important; }
                                     .overflow-container, infinite-scroller { overflow: hidden !important; }
+<<<<<<< HEAD
                                 `;
                                 document.head.appendChild(hideStyle);
 
                                 nativeChatContainer.style.display = '';
+=======
+                                    .conversation-items-container[data-gcm-hidden="true"] { 
+                                        display: block !important; 
+                                        opacity: 0 !important; 
+                                        pointer-events: auto !important;
+                                        position: absolute !important;
+                                        left: -9999px !important;
+                                    }
+                                `;
+                                document.head.appendChild(hideStyle);
+
+>>>>>>> 0af5372 (feat: Gemini Chat Manager extension with project folders)
                                 nativeMenuBtn.click();
 
                                 // Restore scroll position immediately
@@ -359,7 +376,10 @@ export const renderProjectList = () => {
                                             item.click();
                                         }
                                     });
+<<<<<<< HEAD
                                     nativeChatContainer.style.display = 'none';
+=======
+>>>>>>> 0af5372 (feat: Gemini Chat Manager extension with project folders)
                                     // Ensure style is removed
                                     if (document.getElementById('gcm-hide-native-menu')) {
                                         document.getElementById('gcm-hide-native-menu').remove();

@@ -196,6 +196,12 @@ const injectMoveToProjectOption = (menu) => {
 
 // Track which chat's menu was clicked
 export const trackChatMenuClicks = () => {
+<<<<<<< HEAD
+=======
+    // Invalid titles that should be rejected (UI elements, not chat titles)
+    const INVALID_TITLES = ['projects', 'chats', 'gemini', 'recent', 'starred', 'untitled'];
+
+>>>>>>> 0af5372 (feat: Gemini Chat Manager extension with project folders)
     document.addEventListener("click", (e) => {
         const menuBtn = e.target.closest('.conversation-actions-menu-button') ||
             e.target.closest('[data-test-id="actions-menu-button"]') ||
@@ -203,14 +209,30 @@ export const trackChatMenuClicks = () => {
 
         if (menuBtn) {
             const conversationContainer = menuBtn.closest('.conversation-items-container');
+<<<<<<< HEAD
+=======
+            console.log('[GCM DEBUG] Menu button clicked, conversationContainer:', conversationContainer);
+>>>>>>> 0af5372 (feat: Gemini Chat Manager extension with project folders)
 
             if (conversationContainer) {
                 const titleEl = conversationContainer.querySelector('.conversation-title');
                 const title = titleEl?.textContent?.trim() || "Untitled Chat";
                 const chatId = extractChatIdFromContainer(conversationContainer);
+<<<<<<< HEAD
 
                 if (chatId) {
                     setLastClickedChat({ id: chatId, title });
+=======
+                console.log('[GCM DEBUG] Extracted chat info:', { chatId, title, titleEl });
+
+                // Validate both chatId and title
+                const isValidTitle = title && !INVALID_TITLES.includes(title.toLowerCase());
+
+                if (chatId && isValidTitle) {
+                    setLastClickedChat({ id: chatId, title });
+                } else {
+                    console.log('[GCM DEBUG] Invalid chat info, not setting lastClickedChat:', { chatId, title, isValidTitle });
+>>>>>>> 0af5372 (feat: Gemini Chat Manager extension with project folders)
                 }
             }
         }
