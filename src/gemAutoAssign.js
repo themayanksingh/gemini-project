@@ -71,7 +71,6 @@ const checkAndAutoAssign = (container) => {
 
     // Auto-assign chat to project
     const chatTitle = extractChatTitle(container);
-    console.log(`[GCM] Auto-assigning chat "${chatTitle}" to project "${project.name}"`);
 
     // Small delay to let the chat fully load, then do proper assignment
     setTimeout(() => {

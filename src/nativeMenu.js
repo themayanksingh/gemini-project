@@ -218,21 +218,17 @@ export const trackChatMenuClicks = () => {
 
         if (menuBtn) {
             const conversationContainer = menuBtn.closest('.conversation-items-container');
-            console.log('[GCM DEBUG] Menu button clicked, conversationContainer:', conversationContainer);
 
             if (conversationContainer) {
                 const titleEl = conversationContainer.querySelector('.conversation-title');
                 const title = titleEl?.textContent?.trim() || "Untitled Chat";
                 const chatId = extractChatIdFromContainer(conversationContainer);
-                console.log('[GCM DEBUG] Extracted chat info:', { chatId, title, titleEl });
 
                 // Validate both chatId and title
                 const isValidTitle = title && !INVALID_TITLES.includes(title.toLowerCase());
 
                 if (chatId && isValidTitle) {
                     setLastClickedChat({ id: chatId, title });
-                } else {
-                    console.log('[GCM DEBUG] Invalid chat info, not setting lastClickedChat:', { chatId, title, isValidTitle });
                 }
             }
         }

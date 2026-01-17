@@ -121,10 +121,9 @@ let hasLoggedHeights = false;
 const debugRenderHeights = () => {
     if (hasLoggedHeights) return;
     const projectHeader = document.querySelector(".gcm-project-header");
-    const chatRow = document.querySelector(".gcm-chat");
-    const projectHeight = projectHeader?.getBoundingClientRect().height ?? null;
-    const chatHeight = chatRow?.getBoundingClientRect().height ?? null;
-    console.log("[GCM] Rendered row heights", { project: projectHeight, chat: chatHeight });
+    const chatItem = document.querySelector(".gcm-chat");
+    const projectHeight = projectHeader ? projectHeader.offsetHeight : 0;
+    const chatHeight = chatItem ? chatItem.offsetHeight : 0;
     hasLoggedHeights = true;
 };
 

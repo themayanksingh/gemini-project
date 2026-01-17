@@ -297,9 +297,8 @@ export const syncCurrentChatTitle = () => {
     const title = getCurrentChatTitle();
     if (!title) return false;
 
-    // Don't sync if title matches an invalid UI element name
+    // Don't sync if title matches an invalid    // Reject invalid titles
     if (INVALID_TITLES.includes(title.toLowerCase())) {
-        console.log('[GCM DEBUG] Rejecting invalid title sync:', title);
         return false;
     }
 
