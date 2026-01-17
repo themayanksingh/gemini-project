@@ -1,69 +1,74 @@
 # Gemini Chat Manager
 
-**Gemini Chat Manager** is a Chrome extension that helps you organize your Gemini chats into folders/projects, keeping your sidebar clean and efficient.
+A Chrome extension to organize your Gemini AI chats into folders. Stop scrolling through hundreds of chats — group them by project!
 
 ![Extension Icon](icons/icon128.png)
 
-## 🚀 Key Features
+---
 
-- **📁 Project Folders**: Create, rename, and delete projects to group related chats.
-- **🔄 Seamless Integration**: "Move to Project" option injected directly into Gemini's native chat menu.
-- **💾 Persistent State**: Projects remember their expanded/collapsed state across page reloads.
-- **⚡ High Performance**: Optimized rendering engine ensures no lag, even with hundreds of chats.
-- **🎨 Compact UI**: Refined 36px row height with clean visual separation for maximum readability.
-- **☁️ Cloud Sync**: Your organization syncs across all your devices via Chrome Storage.
+## ✨ What It Does
 
-## 🛠️ Installation
+| Feature | Description |
+|---------|-------------|
+| **Folders** | Group related chats together |
+| **Gem Support** | Link a Gem to a folder — click folder to open that Gem |
+| **Multi-Account** | Each Google account has its own folders |
+| **Synced** | Your folders sync across all your devices |
 
-### 1. Build the Extension
+---
+
+## � How to Install
+
+**Step 1:** Download and build
 ```bash
-# Install dependencies
+git clone https://github.com/themayanksingh/gemini-project.git
+cd gemini-project
 npm install
-
-# Build for production
 npm run build
 ```
 
-### 2. Load in Chrome
-1. Open `chrome://extensions/`.
-2. Enable **Developer mode** (top right).
-3. Click **Load unpacked**.
-4. Select the `Gemini Project` folder (the root directory of this repo).
+**Step 2:** Add to Chrome
+1. Go to `chrome://extensions`
+2. Turn on **Developer mode** (top right toggle)
+3. Click **Load unpacked**
+4. Select the folder you just downloaded
 
-## 💻 Development
+**Step 3:** Open [gemini.google.com](https://gemini.google.com) — you'll see a new "Projects" section in the sidebar!
 
-Run in watch mode to automatically rebuild on file changes:
+---
+
+## 🎯 How to Use
+
+1. **Create a folder:** Click the **+ Add** button
+2. **Move a chat:** Click the ⋮ menu on any chat → **Move to Project**
+3. **Link a Gem:** Click ⋮ on a folder → **Set Gem** → Choose your Gem
+4. **Open folder:** Click to expand and see all chats inside
+
+---
+
+## 🛠️ For Developers
+
 ```bash
-npm run dev
+npm run dev   # Auto-rebuild on file changes
 ```
 
-## 📖 Usage Guide
+<details>
+<summary>Project Structure</summary>
 
-| Action | Instructions |
-|--------|--------------|
-| **Create Project** | Click the **+ Add** button at the top of the sidebar. |
-| **Move Chat** | Click the three-dot menu (⋮) on any chat → Select **Move to Project** → Choose a folder. |
-| **Expand/Collapse** | Click the arrow or project header. State is saved automatically. |
-| **Manage Project** | Click the project menu (⋮) to **Rename**, **Delete**, or **Set Gem Icon**. |
-
-## 🏗️ Architecture
-
-The project is modularized for maintainability:
-
-```text
+```
 src/
-├── main.js           # Entry point & orchestration
-├── storage.js        # Chrome storage persistence
-├── state.js          # Shared state management
-├── projects.js       # Project CRUD logic
-├── chats.js          # Chat movement & optimization logic
-├── nativeMenu.js     # Native Gemini UI injection
-└── ui/
-    ├── projectList.js # Sidebar rendering engine
-    ├── modal.js      # Custom dialogs
-    └── contextMenu.js # Custom context menus
+├── main.js           # Entry point
+├── account.js        # Google account detection
+├── storage.js        # Chrome storage (per-account)
+├── projects.js       # Folder CRUD
+├── chats.js          # Chat management
+└── ui/               # UI components
 ```
+
+</details>
+
+---
 
 ## 📜 License
 
-MIT
+MIT — Free to use, modify, and share.

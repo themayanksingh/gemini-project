@@ -8,7 +8,7 @@ const GCM_VERSION = "1.2.0";
 console.log(`[GCM] Gemini Chat Manager v${GCM_VERSION} loaded`);
 
 import { loadData, saveChatMappings } from "./storage.js";
-import { getAccountId } from "./account.js";
+import { getAccountId, getAccountChanged } from "./account.js";
 import { setProjects, setChatMappings } from "./state.js";
 import { hideAllMappedChats, cleanupDeletedChats, normalizeChatMappings, recoverHiddenUnmappedChats, syncCurrentChatTitle } from "./chats.js";
 import { initContextMenuListener } from "./ui/contextMenu.js";
@@ -109,12 +109,31 @@ const init = async () => {
                     safeRenderProjectList();
                 }, 200); // Increased from 150ms
 
+                // Check for account changes (throttled)
+                let lastKnownAccount = accountId;
+                let lastAccountCheck = 0;
+
+                const checkAccountChange = () => {
+                    const now = Date.now();
+                    if (now - lastAccountCheck < 2000) return; // Max once every 2s
+                    lastAccountCheck = now;
+
+                    const newAccount = getAccountChanged(lastKnownAccount);
+                    if (newAccount) {
+                        console.log(`[GCM] Account changed from ${lastKnownAccount} to ${newAccount}, reloading...`);
+                        lastKnownAccount = newAccount;
+                        window.location.reload();
+                    }
+                };
+
                 // Watch for DOM changes with debouncing
                 const observer = new MutationObserver(() => {
                     if (!isContainerInjected() || !document.getElementById("gcm-container")) {
                         debouncedRender();
                     }
                     debouncedHide();
+                    // Check account on DOM changes (throttled)
+                    checkAccountChange();
                 });
 
                 observer.observe(document.body, {
@@ -123,10 +142,7 @@ const init = async () => {
                 });
 
                 // Initial hide of mapped chats
-                setTimeout(() => {
-                    hideAllMappedChats();
-                    recoverHiddenUnmappedChats();
-                }, 500);
+                setTimeout(hideAllMappedChats, 500);
 
                 // Start watching for Gem chats to auto-assign
                 watchForGemChats(debouncedRender);
@@ -138,27 +154,23 @@ const init = async () => {
                     }
                 }, 10000);
 
-                // Re-render on URL/navigation changes to update active chat
+                // Re-render on URL/navigation changes
                 let lastUrl = window.location.href;
                 setInterval(() => {
                     if (window.location.href !== lastUrl) {
                         lastUrl = window.location.href;
-                        renderProjectList(); // Immediate for active state
+                        renderProjectList();
+                        checkAccountChange(); // Also check account on navigation
                     }
                 }, 200);
 
                 // Periodic refresh to sync chat names from native sidebar
                 setInterval(() => {
-                    const didUpdateTitle = syncCurrentChatTitle();
-                    if (didUpdateTitle) {
-                        debouncedRender();
-                        return;
-                    }
                     debouncedRender();
                 }, 3000);
             }
         }
-    }, 200);
+    }, 500);
 };
 
 // Start the extension

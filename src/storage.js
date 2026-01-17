@@ -39,37 +39,37 @@ const isContextValid = () => {
 
 /**
  * Migrate legacy data to account-scoped storage
- * Only runs once per account
+ * Only runs once - legacy data is deleted after first migration
  */
 const migrateLegacyData = async (accountId) => {
     if (!isContextValid() || accountId === 'default') return;
 
-    const migrationKey = `gcm_migrated_${accountId}`;
+    const globalMigrationKey = 'gcm_legacy_migrated'; // One-time flag
 
     try {
         const result = await chrome.storage.sync.get([
-            migrationKey,
+            globalMigrationKey,
             LEGACY_KEYS.PROJECTS,
             LEGACY_KEYS.CHAT_MAPPINGS
         ]);
 
-        // Skip if already migrated or no legacy data
-        if (result[migrationKey]) return;
+        // Skip if already migrated globally
+        if (result[globalMigrationKey]) return;
 
         const legacyProjects = result[LEGACY_KEYS.PROJECTS];
         const legacyChatMappings = result[LEGACY_KEYS.CHAT_MAPPINGS];
 
         if (!legacyProjects && !legacyChatMappings) {
             // No legacy data, mark as migrated
-            await chrome.storage.sync.set({ [migrationKey]: true });
+            await chrome.storage.sync.set({ [globalMigrationKey]: true });
             return;
         }
 
-        // Copy legacy data to account-scoped keys
+        // Copy legacy data to CURRENT account's scoped keys
         const scopedProjectsKey = `${STORAGE_KEYS.PROJECTS}_${accountId}`;
         const scopedMappingsKey = `${STORAGE_KEYS.CHAT_MAPPINGS}_${accountId}`;
 
-        const updates = { [migrationKey]: true };
+        const updates = { [globalMigrationKey]: true };
 
         if (legacyProjects) {
             updates[scopedProjectsKey] = legacyProjects;
@@ -79,6 +79,10 @@ const migrateLegacyData = async (accountId) => {
         }
 
         await chrome.storage.sync.set(updates);
+
+        // DELETE legacy keys so they don't migrate to other accounts
+        await chrome.storage.sync.remove([LEGACY_KEYS.PROJECTS, LEGACY_KEYS.CHAT_MAPPINGS]);
+
         console.log('[GCM] Migrated legacy data to account:', accountId);
     } catch (e) {
         console.warn('[GCM] Migration error:', e);

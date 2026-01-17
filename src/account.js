@@ -106,3 +106,20 @@ export const waitForAccount = (maxAttempts = 10, delayMs = 500) => {
         tryDetect();
     });
 };
+/**
+ * Check if account ID has changed by bypassing cache
+ * Returns new account ID if changed, null otherwise
+ */
+export const getAccountChanged = (lastKnownAccount) => {
+    const previousCache = cachedAccountId;
+    cachedAccountId = null; // Force fresh check
+    const currentAccount = getAccountId();
+
+    if (currentAccount !== lastKnownAccount && currentAccount !== 'default') {
+        return currentAccount;
+    }
+
+    // Restore cache if no change
+    cachedAccountId = previousCache;
+    return null;
+};
