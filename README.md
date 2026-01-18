@@ -2,7 +2,7 @@
 
 A Chrome extension to organize your Gemini AI chats into folders. Stop scrolling through hundreds of chats — group them by project!
 
-![Extension Icon](icons/icon128.png)
+![Extension Icon](icons/icon48.png)
 
 ---
 
@@ -14,6 +14,8 @@ A Chrome extension to organize your Gemini AI chats into folders. Stop scrolling
 | **Gem Support** | Link a Gem to a folder — click folder to open that Gem |
 | **Multi-Account** | Each Google account has its own folders |
 | **Synced** | Your folders sync across all your devices |
+
+![Gemini Projects Screenshot](Gemini%20screenshot.png)
 
 ---
 
