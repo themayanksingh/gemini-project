@@ -94,13 +94,16 @@ export const getChatsForProject = (projectId) => {
     // Get all chats for this project from storage
     Object.entries(chatMappings).forEach(([chatId, data]) => {
         if (data.projectId === projectId) {
-            result.push({ id: chatId, title: data.title, addedAt: data.addedAt || 0 });
+            result.push({ id: chatId, title: data.title, addedAt: data.addedAt || 0, lastSeen: data.lastSeen });
         }
     });
 
     // Build a map of chat IDs to native titles and order (for chats currently loaded)
     const nativeChats = new Map();
     const nativeOrder = [];
+    const now = Date.now();
+    let needsSave = false;
+
     document.querySelectorAll('.conversation-items-container').forEach(container => {
         const chatId = extractChatIdFromContainer(container);
         const titleEl = container.querySelector('.conversation-title');
@@ -109,8 +112,25 @@ export const getChatsForProject = (projectId) => {
             const title = titleEl?.textContent?.trim() || "Untitled";
             nativeChats.set(chatId, title);
             nativeOrder.push(chatId);
+
+            // Update lastSeen timestamp for this chat if it's in our mappings
+            if (chatMappings[chatId]) {
+                const previousLastSeen = chatMappings[chatId].lastSeen || 0;
+                // Only update if it's been more than 1 hour since last update (avoid spam)
+                if (now - previousLastSeen > 3600000) {
+                    chatMappings[chatId].lastSeen = now;
+                    chatMappings[chatId].title = title; // Also update title
+                    needsSave = true;
+                }
+            }
         }
     });
+
+    // Save updated timestamps if any changed
+    if (needsSave) {
+        setChatMappings(chatMappings);
+        saveChatMappings(chatMappings);
+    }
 
     // Update titles from native sidebar if available (don't filter!)
     const updated = result.map(chat => {

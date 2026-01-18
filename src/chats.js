@@ -186,6 +186,32 @@ export const removeChatFromProject = (chatId, onComplete) => {
     if (onComplete) onComplete();
 };
 
+/**
+ * Remove deleted chat (detected via failed navigation)
+ */
+export const removeDeletedChat = (chatId) => {
+    const chatMappings = getChatMappings();
+    const normalizedId = normalizeChatId(chatId);
+
+    if (!normalizedId || !chatMappings[normalizedId]) return false;
+
+    const chatTitle = chatMappings[normalizedId].title || "Untitled";
+    delete chatMappings[normalizedId];
+
+    if (chatId && chatId !== normalizedId) {
+        delete chatMappings[chatId];
+    }
+
+    setChatMappings(chatMappings);
+    saveChatMappings(chatMappings);
+
+    // Show toast notification
+    console.log(`[GCM] Chat "${chatTitle}" no longer exists - removed from project`);
+
+    return true;
+};
+
+
 export const hideChatFromNativeList = (chatId) => {
     const normalizedId = normalizeChatId(chatId);
     if (!normalizedId) return;

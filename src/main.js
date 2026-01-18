@@ -10,7 +10,7 @@ console.log(`[GCM] Gemini Chat Manager v${GCM_VERSION} loaded`);
 import { loadData, saveChatMappings } from "./storage.js";
 import { getAccountId, getAccountChanged } from "./account.js";
 import { setProjects, setChatMappings } from "./state.js";
-import { hideAllMappedChats, cleanupDeletedChats, normalizeChatMappings, recoverHiddenUnmappedChats, syncCurrentChatTitle } from "./chats.js";
+import { hideAllMappedChats, cleanupDeletedChats, normalizeChatMappings, recoverHiddenUnmappedChats, syncCurrentChatTitle, removeDeletedChat } from "./chats.js";
 import { initContextMenuListener } from "./ui/contextMenu.js";
 import { renderProjectList, isContainerInjected } from "./ui/projectList.js";
 import { trackChatMenuClicks, watchForNativeMenu } from "./nativeMenu.js";
@@ -154,13 +154,39 @@ const init = async () => {
                     }
                 }, 10000);
 
-                // Re-render on URL/navigation changes
+                // Monitor navigation to detect deleted chats
                 let lastUrl = window.location.href;
+                let pendingChatCheck = null;
+
                 setInterval(() => {
-                    if (window.location.href !== lastUrl) {
-                        lastUrl = window.location.href;
+                    const currentUrl = window.location.href;
+
+                    if (currentUrl !== lastUrl) {
+                        // Extract chat ID from the PREVIOUS URL (where user tried to go)
+                        const previousChatIdMatch = lastUrl.match(/\/app\/([a-zA-Z0-9_-]+)/);
+                        const previousChatId = previousChatIdMatch ? `c_${previousChatIdMatch[1]}` : null;
+
+                        // Check if we were trying to navigate to a specific chat
+                        if (previousChatId && pendingChatCheck === previousChatId) {
+                            // Check if we got redirected away (to home or new chat)
+                            const isRedirectedHome = currentUrl.includes('/app') && !currentUrl.includes(previousChatId.substring(2));
+
+                            if (isRedirectedHome) {
+                                // Chat likely deleted - remove it
+                                const wasRemoved = removeDeletedChat(previousChatId);
+                                if (wasRemoved) {
+                                    setTimeout(() => renderProjectList(), 100);
+                                }
+                            }
+                        }
+
+                        // Set up check for the new chat we're navigating to
+                        const currentChatIdMatch = currentUrl.match(/\/app\/([a-zA-Z0-9_-]+)/);
+                        pendingChatCheck = currentChatIdMatch ? `c_${currentChatIdMatch[1]}` : null;
+
+                        lastUrl = currentUrl;
                         renderProjectList();
-                        checkAccountChange(); // Also check account on navigation
+                        checkAccountChange();
                     }
                 }, 200);
 
